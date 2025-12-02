@@ -2,10 +2,23 @@
 #include <fstream>
 #include <iostream>
 
+struct Solution {
+	int64_t partOne;
+	int64_t partTwo;
+
+	Solution(uint64_t a, uint64_t b) { partOne = a; partTwo = b; }
+
+	void print() {
+		std::cout << "Part 1: " << std::to_string(partOne) << std::endl;
+		std::cout << "Part 2: " << std::to_string(partTwo) << std::endl;
+	}
+};
+
+
 class Lock {
 public:
-	int dial;
-	int password;
+	int64_t dial;
+	int64_t password;
 
 	Lock() { dial = 50; password = 0; }
 
@@ -19,6 +32,7 @@ public:
 		}
 		normalize();
 		std::cout << "The dial is now at " << std::to_string(dial) << std::endl;
+		std::cout << "The password is now at " << std::to_string(password) << std::endl;
 		if (dial == 0) password++;
 	}
 
@@ -29,17 +43,12 @@ private:
 	}
 };
 
-uint64_t part1(std::vector<std::string> input) {
+Solution solve(std::vector<std::string> input) {
 	Lock lock;
 	for (std::string rotation : input) {
 		lock.turn(rotation);
 	}
-	return lock.password;
-}
-
-uint64_t part2(std::vector<std::string> input) {
-	uint64_t solution = 0;
-	return solution;
+	return Solution(lock.password, 0);
 }
 
 int main(int argc, char* argv[]) {
@@ -50,8 +59,8 @@ int main(int argc, char* argv[]) {
 		input.push_back(line);
 	}
 
-	std::cout << std::to_string(part1(input)) << std::endl;
-	std::cout << std::to_string(part2(input)) << std::endl;
+	Solution solution = solve(input);
+	solution.print();
 
 	return 0;
 }
