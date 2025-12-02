@@ -27,7 +27,6 @@ public:
 		char direction = rotation.at(0);
 		int amount = std::stoi(rotation.substr(1));
 		int64_t dialBefore = dial;
-		std::cout << "The rotation requested is " << rotation << std::endl;
 		switch (direction) {
 			case 'L': dial -= amount; break;
 			case 'R': dial += amount; break;
@@ -36,17 +35,16 @@ public:
 
 		normalize();
 
-		if (amount > 100) { actualPassword += amount / 100; }
-		else if (amount < 100) {
-			if ((direction == 'L' && dial > dialBefore) || (direction == 'R' && dial < dialBefore)) {
+		if (amount >= 100) {
+			actualPassword += amount / 100;
+		}
+		if (dialBefore != 0) {
+			if ((direction == 'L' && dial > dialBefore) || (direction == 'R' && dial < dialBefore) || dial == 0) {
 				actualPassword++;
 			}
 		}
 		
 		if (dial == 0) password++;
-		std::cout << "The dial is now at " << std::to_string(dial) << std::endl;
-		std::cout << "The password is now at " << std::to_string(password) << std::endl;
-		std::cout << "The actual password is now at " << std::to_string(actualPassword) << std::endl;
 	}
 
 private:	
