@@ -7,7 +7,5 @@ else
 fi
 
 cp -r template/ $dir/
-cd $dir
-curl --cookie "session=$AOC_SESSION" "https://adventofcode.com/2025/day/${day}" | html2markdown > DIRECTIONS.md
-cd input
-curl --cookie "session=$AOC_SESSION" "https://adventofcode.com/2025/day/${day}/input" > input.txt
+curl --cookie "session=$AOC_SESSION" "https://adventofcode.com/2025/day/${day}" | html2markdown > $dir/DIRECTIONS.md
+curl --cookie "session=$AOC_SESSION" "https://adventofcode.com/2025/day/${day}/input" > $dir/input/input.txt
