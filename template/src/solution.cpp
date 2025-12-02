@@ -3,26 +3,32 @@
 #include <iostream>
 
 
-uint64_t part1(std::vector<std::string> input) {
-	uint64_t solution = 0;
-	return solution;
-}
+struct Solution {
+	int64_t partOne;
+	int64_t partTwo;
 
-uint64_t part2(std::vector<std::string> input) {
-	uint64_t solution = 0;
-	return solution;
+	Solution(uint64_t a, uint64_t b) { partOne = a; partTwo = b; }
+
+	void print() {
+		std::cout << "Part 1: " << std::to_string(partOne) << std::endl;
+		std::cout << "Part 2: " << std::to_string(partTwo) << std::endl;
+	}
+};
+
+Solution solve(std::vector<std::string> input) {
+	return Solution(0, 0);
 }
 
 int main(int argc, char* argv[]) {
-	std::ifstream infile("input/input.txt");
+	std::ifstream infile(argv[1]);
 	std::string line;
 	std::vector<std::string> input;
 	while (std::getline(infile, line)) {
 		input.push_back(line);
 	}
 
-	std::cout << std::to_string(part1(input)) << std::endl;
-	std::cout << std::to_string(part2(input)) << std::endl;
+	Solution solution = solve(input);
+	solution.print();
 
 	return 0;
 }
