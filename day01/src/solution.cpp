@@ -22,43 +22,49 @@ public:
 	int64_t actualPassword;
 
 	Lock() { dial = 50; password = 0; actualPassword = 0; }
-
-	void turn(std::string rotation) {
-		char direction = rotation.at(0);
-		int amount = std::stoi(rotation.substr(1));
-		int64_t dialBefore = dial;
-		switch (direction) {
-			case 'L': dial -= amount; break;
-			case 'R': dial += amount; break;
-			default: std::cout << "wtf" << std::endl;
-		}
-
-		normalize();
-
-		if (amount >= 100) {
-			actualPassword += amount / 100;
-		}
-		if (dialBefore != 0) {
-			if ((direction == 'L' && dial > dialBefore) || (direction == 'R' && dial < dialBefore) || dial == 0) {
-				actualPassword++;
-			}
-		}
-		
-		if (dial == 0) password++;
-	}
+	void unlock(const std::vector<std::string>&);
 
 private:	
-	void normalize() { 
-		dial %= 100;
-		if (dial < 0) dial += 100;
-	}
+	void turn(const std::string&);
+	void normalize(); 
 };
 
-Solution solve(std::vector<std::string> input) {
-	Lock lock;
-	for (std::string rotation : input) {
-		lock.turn(rotation);
+void Lock::unlock(const std::vector<std::string>& rotations) {
+	for (const std::string& rotation : rotations) {
+		turn(rotation);
 	}
+}
+
+void Lock::turn(const std::string& rotation) {
+	char direction = rotation.at(0);
+	int amount = std::stoi(rotation.substr(1));
+	int64_t dialBefore = dial;
+	switch (direction) {
+		case 'L': dial -= amount; break;
+		case 'R': dial += amount; break;
+		default: std::cout << "wtf" << std::endl;
+	}
+
+	normalize();
+
+	if (amount >= 100) {
+		actualPassword += amount / 100;
+	}
+	if (dialBefore != 0 && ((direction == 'L' && dial > dialBefore) || (direction == 'R' && dial < dialBefore) || dial == 0)) {
+		actualPassword++;
+	}
+	if (dial == 0) password++;
+}
+
+void Lock::normalize() {
+	dial %= 100;
+	if (dial < 0) dial += 100;
+}
+
+
+Solution solve(const std::vector<std::string>& input) {
+	Lock lock;
+	lock.unlock(input);
 	return Solution(lock.password, lock.actualPassword);
 }
 
