@@ -26,8 +26,10 @@ private:
 bool GiftShopDatabase::isInvalidId(uint64_t num) {
 	int numDigits = getNumDigits(num);
 	if (numDigits & 1) return false; 
-	std::cout << "The number of digits in " << std::to_string(num) << " is " << std::to_string(numDigits) << std::endl;
-	return false;
+	int midPoint = numDigits/2;
+	int firstHalf = num / std::pow(10, midPoint);
+	int secondHalf = num % (uint64_t)std::pow(10, midPoint);
+	return firstHalf == secondHalf;
 }
 
 int GiftShopDatabase::getNumDigits(uint64_t num) {
@@ -43,17 +45,15 @@ Solution solve(std::vector<std::string> input) {
 	Solution solution(0, 0);
 
 	while (std::getline(ranges, range, ',')) {
-		std::cout << "Range is " << range << std::endl;
 		hyphen = range.find('-');
-		start = std::stoi(range.substr(0, hyphen));
-		end = std::stoi(range.substr(hyphen + 1));
-	std::cout << "Start is " << std::to_string(start) << " and end is " << std::to_string(end) << std::endl;
+		start = std::stoll(range.substr(0, hyphen));
+		end = std::stoll(range.substr(hyphen + 1));
 		 for (uint64_t i = start; i <= end; i++) {
-			if (db.isInvalidId(i)) solution.partOne++;
+			if (db.isInvalidId(i)) {
+				solution.partOne += i;
+			}
 		}
 	}
-
-
 	return solution;
 }
 
